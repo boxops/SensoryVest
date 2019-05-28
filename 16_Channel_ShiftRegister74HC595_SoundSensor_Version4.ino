@@ -15,7 +15,7 @@ int sensorCounts[4] = {0, 0, 0, 0};
 int maxValue = 0;
 int maxIndex = 0;
 unsigned int interval = 400;
-const int activation = 100;
+const int activation = 50;
 const int tones[3] = {90, 60, 30};
 const int duration = 100;
 
@@ -37,15 +37,15 @@ void loop() {
       sensorCounts[0] = sensorCounts[0] + 1;
       delay(1);
     }
-    if (sensors[1] == LOW) {
+    else if (sensors[1] == LOW) {
       sensorCounts[1] = sensorCounts[1] + 1;
       delay(1);
     }
-    if (sensors[2] == LOW) {
+    else if (sensors[2] == LOW) {
       sensorCounts[2] = sensorCounts[2] + 1;
       delay(1);
     }
-    if (sensors[3] == LOW) {
+    else if (sensors[3] == LOW) {
       sensorCounts[3] = sensorCounts[3] + 1;
       delay(1);
     }
@@ -60,14 +60,14 @@ void loop() {
   }
 
   //useful serial feedback when adjusting potentiometer on sensors
-  //  Serial.println("Sensor 1");
-  //  Serial.println(sensorCounts[0]);
-  //  Serial.println("Sensor 2");
-  //  Serial.println(sensorCounts[1]);
-  //  Serial.println("Sensor 3");
-  //  Serial.println(sensorCounts[2]);
-  //  Serial.println("Sensor 4");
-  //  Serial.println(sensorCounts[3]);
+  Serial.println("Sensor 1");
+  Serial.println(sensorCounts[0]);
+  Serial.println("Sensor 2");
+  Serial.println(sensorCounts[1]);
+  Serial.println("Sensor 3");
+  Serial.println(sensorCounts[2]);
+  Serial.println("Sensor 4");
+  Serial.println(sensorCounts[3]);
 
   //find highest recorded sensor values and compare them to activation var
   if (timeElapsed > interval) {
@@ -75,88 +75,88 @@ void loop() {
       if (maxValue > activation + tones[0]) {
         //activate 4 motors
         Serial.println("Sensor 1 - 4 Motors On");
-        motorControl4(0, 1, 2, 3);
+        motorControl4(4, 3, 2, 1);
       }
       else if (maxValue > activation + tones[1]) {
         //activate 3 motors
         Serial.println("Sensor 1 - 3 Motors On");
-        motorControl3(0, 1, 2);
+        motorControl3(4, 3, 2);
       }
       else if (maxValue > activation + tones[2]) {
         //activate 2 motors
         Serial.println("Sensor 1 - 2 Motors On");
-        motorControl2(0, 1);
+        motorControl2(4, 3);
       }
       else if (maxValue > activation) {
         //activate one motor
         Serial.println("Sensor 1 - 1 Motor On");
-        motorControl1(0);
+        motorControl1(4);
       }
     }
     else if (sensorCounts[1] == sensorCounts[maxIndex]) {
       if (maxValue > activation + tones[0]) {
         //activate 4 motors
         Serial.println("Sensor 2 - 4 Motors On");
-        motorControl4(4, 5, 6, 7);
+        motorControl4(5, 0, 7, 6);
       }
       else if (maxValue > activation + tones[1]) {
         //activate 3 motors
         Serial.println("Sensor 2 - 3 Motors On");
-        motorControl3(4, 5, 6);
+        motorControl3(5, 0, 7);
       }
       else if (maxValue > activation + tones[2]) {
         //activate 2 motors
         Serial.println("Sensor 2 - 2 Motors On");
-        motorControl2(4, 5);
+        motorControl2(5, 0);
       }
       else if (maxValue > activation) {
         //activate one motor
         Serial.println("Sensor 2 - 1 Motor On");
-        motorControl1(4);
+        motorControl1(5);
       }
     }
     else if (sensorCounts[2] == sensorCounts[maxIndex]) {
       if (maxValue > activation + tones[0]) {
         //activate 4 motors
         Serial.println("Sensor 3 - 4 Motors On");
-        motorControl4(8, 9, 10, 11);
+        motorControl4(9, 10, 11, 12);
       }
       else if (maxValue > activation + tones[1]) {
         //activate 3 motors
         Serial.println("Sensor 3 - 3 Motors On");
-        motorControl3(8, 9, 10);
+        motorControl3(9, 10, 11);
       }
       else if (maxValue > activation + tones[2]) {
         //activate 2 motors
         Serial.println("Sensor 3 - 2 Motors On");
-        motorControl2(8, 9);
+        motorControl2(9, 10);
       }
       else if (maxValue > activation) {
         //activate one motor
         Serial.println("Sensor 3 - 1 Motor On");
-        motorControl1(8);
+        motorControl1(9);
       }
     }
     else if (sensorCounts[3] == sensorCounts[maxIndex]) {
       if (maxValue > activation + tones[0]) {
         //activate 4 motors
         Serial.println("Sensor 4 - 4 Motors On");
-        motorControl4(12, 13, 14, 15);
+        motorControl4(13, 14, 15, 8);
       }
       else if (maxValue > activation + tones[1]) {
         //activate 3 motors
         Serial.println("Sensor 4 - 3 Motors On");
-        motorControl3(12, 13, 14);
+        motorControl3(13, 14, 15);
       }
       else if (maxValue > activation + tones[2]) {
         //activate 2 motors
         Serial.println("Sensor 4 - 2 Motors On");
-        motorControl2(12, 13);
+        motorControl2(13, 14);
       }
       else if (maxValue > activation) {
         //activate one motor
         Serial.println("Sensor 4 - 1 Motor On");
-        motorControl1(12);
+        motorControl1(13);
       }
     }
     else {
