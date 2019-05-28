@@ -32,45 +32,32 @@ void loop() {
   while (timeElapsed < interval) {
     for (int i = 0; i < 4; i++) {
       sensors[i] = digitalRead(sensorPins[i]);
-    }
-    if (sensors[0] == LOW) {
-      sensorCounts[0] = sensorCounts[0] + 1;
-      delay(1);
-    }
-    else if (sensors[1] == LOW) {
-      sensorCounts[1] = sensorCounts[1] + 1;
-      delay(1);
-    }
-    else if (sensors[2] == LOW) {
-      sensorCounts[2] = sensorCounts[2] + 1;
-      delay(1);
-    }
-    else if (sensors[3] == LOW) {
-      sensorCounts[3] = sensorCounts[3] + 1;
-      delay(1);
-    }
-  }
-
-  //find the maximum sensor value
-  for (int i = 0; i < 4; i++) {
-    if (sensorCounts[i] > maxValue) {
-      maxValue = sensorCounts[i];
-      maxIndex = i;
+      if (sensors[i] == LOW) {
+        sensorCounts[i] = sensorCounts[i] + 1;
+        delay(1);
+      }
     }
   }
 
   //useful serial feedback when adjusting potentiometer on sensors
-  Serial.println("Sensor 1");
-  Serial.println(sensorCounts[0]);
-  Serial.println("Sensor 2");
-  Serial.println(sensorCounts[1]);
-  Serial.println("Sensor 3");
-  Serial.println(sensorCounts[2]);
-  Serial.println("Sensor 4");
-  Serial.println(sensorCounts[3]);
+  //    Serial.println("Sensor 1");
+  //    Serial.println(sensorCounts[0]);
+  //    Serial.println("Sensor 2");
+  //    Serial.println(sensorCounts[1]);
+  //    Serial.println("Sensor 3");
+  //    Serial.println(sensorCounts[2]);
+  //    Serial.println("Sensor 4");
+  //    Serial.println(sensorCounts[3]);
 
   //find highest recorded sensor values and compare them to activation var
   if (timeElapsed > interval) {
+    //find the maximum sensor value
+    for (int i = 0; i < 4; i++) {
+      if (sensorCounts[i] > maxValue) {
+        maxValue = sensorCounts[i];
+        maxIndex = i;
+      }
+    }
     if (sensorCounts[0] == sensorCounts[maxIndex]) {
       if (maxValue > activation + tones[0]) {
         //activate 4 motors
@@ -162,10 +149,7 @@ void loop() {
     else {
       Serial.println("No input");
     }
-  }
-
-  //reset values and loop again
-  if (timeElapsed > interval) {
+    //reset values and loop again
     for (int i = 0; i < 4; i++) {
       sensorCounts[i] = 0;
     }
@@ -174,6 +158,7 @@ void loop() {
     maxIndex = 0;
   }
 }
+
 
 void motorControl1(int i) {
   sr.set(i, LOW); // set single pin LOW
